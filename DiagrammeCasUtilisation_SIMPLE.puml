@@ -31,7 +31,7 @@ actor "Utilisateur" as USER #FFFFCC
 rectangle "HELP'OPS v1.0" {
     
     ' ============================================
-    ' CAS D'UTILISATION (Bleus)
+    ' CAS D'UTILISATION PRIMAIRES (Bleus - Gauche)
     ' ============================================
     usecase "S'Authentifier" as UC1 #DDEEF8
     usecase "Déclarer\nun Incident" as UC2 #DDEEF8
@@ -39,16 +39,16 @@ rectangle "HELP'OPS v1.0" {
     usecase "Consulter\nDétail d'Incident" as UC4 #DDEEF8
     
     ' ============================================
-    ' FONCTIONS INTERNES (Verts)
+    ' FONCTIONS INTERNES (Verts - Droite)
     ' ============================================
-    usecase "Vérifier\nToken" as CHECK #E8F8D8
     usecase "Générer\nToken" as GEN #E8F8D8
+    usecase "Vérifier\nToken" as CHECK #E8F8D8
     usecase "Créer\nIncident" as CREATE #E8F8D8
     usecase "Filtrer\nDonnées" as FILTER #E8F8D8
     usecase "Sauvegarder" as SAVE #E8F8D8
     
     ' ============================================
-    ' CONNEXIONS UTILISATEUR
+    ' CONNEXIONS UTILISATEUR -> CAS PRIMAIRES
     ' ============================================
     USER --> UC1
     USER --> UC2
@@ -56,28 +56,28 @@ rectangle "HELP'OPS v1.0" {
     USER --> UC4
     
     ' ============================================
-    ' INCLUSION S'AUTHENTIFIER
+    ' INCLUSION S'AUTHENTIFIER (vers GEN Token à droite)
     ' ============================================
-    UC1 .> GEN : <<include>>
+    UC1 ..> GEN : <<include>>
     
     ' ============================================
-    ' INCLUSION DÉCLARER INCIDENT
+    ' INCLUSION DÉCLARER INCIDENT (vers cas verts à droite)
     ' ============================================
-    UC2 .> CHECK : <<include>>
-    UC2 .> CREATE : <<include>>
-    UC2 .> SAVE : <<include>>
+    UC2 ..> CHECK : <<include>>
+    UC2 ..> CREATE : <<include>>
+    UC2 ..> SAVE : <<include>>
     
     ' ============================================
-    ' INCLUSION CONSULTER MES INCIDENTS
+    ' INCLUSION CONSULTER MES INCIDENTS (vers cas verts à droite)
     ' ============================================
-    UC3 .> CHECK : <<include>>
-    UC3 .> FILTER : <<include>>
+    UC3 ..> CHECK : <<include>>
+    UC3 ..> FILTER : <<include>>
     
     ' ============================================
-    ' INCLUSION CONSULTER DÉTAIL
+    ' INCLUSION CONSULTER DÉTAIL (vers cas verts à droite)
     ' ============================================
-    UC4 .> CHECK : <<include>>
-    UC4 .> FILTER : <<include>>
+    UC4 ..> CHECK : <<include>>
+    UC4 ..> FILTER : <<include>>
 }
 
 @enduml
