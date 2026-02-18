@@ -1,0 +1,43 @@
+# Fichiers compilés Java
+*.class
+*.jar
+*.war
+*.ear
+*.zip
+
+# Répertoires de build
+bin/
+target/
+build/
+dist/
+.gradle/
+
+# Fichiers de persistance
+helpops_donnees.dat
+*.dat
+
+# IDE
+.vscode/
+.idea/
+*.iml
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Environnement
+.env
+.env.local
+
+# Logs
+*.log
+
+# Dossier node_modules (si vous utilisez npm)
+node_modules/
+
+# Dossier Maven
+.m2/
+
+# Fichiers temporaires
+*.tmp
+*.bak

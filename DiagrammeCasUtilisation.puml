@@ -1,0 +1,61 @@
+@startuml HelpOps_V1_UseCases
+!define ARROWCOLOR #333333
+skinparam usecase {
+    BackgroundColor #E1F5FE
+    BorderColor #01579B
+    ArrowColor ARROWCOLOR
+}
+skinparam actor {
+    BackgroundColor #FFF9C4
+    BorderColor #F57F17
+}
+
+left to right direction
+
+actor Utilisateur
+
+rectangle "HELP'OPS v1.0" {
+    usecase "S'Authentifier" as UC1
+    usecase "Déclarer un Incident" as UC2
+    usecase "Consulter Mes Incidents" as UC3
+    usecase "Consulter Détail d'Incident" as UC4
+    
+    Utilisateur --> UC1
+    Utilisateur --> UC2
+    Utilisateur --> UC3
+    Utilisateur --> UC4
+    
+    UC1 .> UC2 : <<include>>
+    UC1 .> UC3 : <<include>>
+    UC1 .> UC4 : <<include>>
+    
+    note right of UC1
+        Pré-condition: Compte valide
+        Généère un token UUID
+        Max 3 tentatives
+    end note
+    
+    note right of UC2
+        Pré-condition: Token valide
+        Champs obligatoires:
+        - Catégorie
+        - Titre
+        - Description
+        Créé avec statut OPEN
+    end note
+    
+    note right of UC3
+        Pré-condition: Token valide
+        Affiche la liste des
+        incidents de l'utilisateur
+    end note
+    
+    note right of UC4
+        Pré-condition: Token valide
+        Affiche les détails d'un
+        incident appartenant
+        à l'utilisateur
+    end note
+}
+
+@enduml
