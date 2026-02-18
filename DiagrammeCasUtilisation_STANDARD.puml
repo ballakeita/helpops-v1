@@ -1,0 +1,135 @@
+@startuml HelpOps_V1_UseCases_Standard
+!define ARROWCOLOR #333333
+
+skinparam usecase {
+    BackgroundColor #DDEEF8
+    BorderColor #0066CC
+    ArrowColor #333333
+}
+
+skinparam actor {
+    BackgroundColor #FFFFCC
+    BorderColor #FF9900
+}
+
+skinparam rectangle {
+    BackgroundColor #FFFFFF
+    BorderColor #333333
+    BorderThickness 2
+}
+
+left to right direction
+
+' ============================================
+' ACTEURS
+' ============================================
+actor "Utilisateur" as USER #FFFFCC
+
+' ============================================
+' SYSTÈME
+' ============================================
+rectangle "HELP'OPS - Système de Gestion d'Incidents" {
+    
+    ' ============================================
+    ' CAS D'UTILISATION PRIMAIRES (Bleus)
+    ' ============================================
+    usecase "S'Authentifier" as UC1 #DDEEF8
+    usecase "Déclarer un Incident" as UC2 #DDEEF8
+    usecase "Consulter Mes Incidents" as UC3 #DDEEF8
+    usecase "Consulter Détail\nd'Incident" as UC4 #DDEEF8
+    
+    ' ============================================
+    ' CAS D'UTILISATION SECONDAIRES (Verts - includes)
+    ' ============================================
+    usecase "Vérifier Token" as UC1A #E8F8D8
+    usecase "Générer Token\nUUID" as UC1B #E8F8D8
+    usecase "Créer Incident\nID Unique" as UC2A #E8F8D8
+    usecase "Sauvegarder\nDonnées" as UC2B #E8F8D8
+    usecase "Filtrer par\nUtilisateur" as UC3A #E8F8D8
+    usecase "Vérifier\nPropriété" as UC4A #E8F8D8
+    
+    ' ============================================
+    ' CONNEXIONS ACTEUR - CAS PRIMAIRES
+    ' ============================================
+    USER --> UC1 : initier
+    USER --> UC2 : utiliser
+    USER --> UC3 : utiliser
+    USER --> UC4 : utiliser
+    
+    ' ============================================
+    ' RELATIONS <<include>> - UC1 (S'Authentifier)
+    ' ============================================
+    UC1 .> UC1A : <<include>>
+    UC1 .> UC1B : <<include>>
+    
+    ' ============================================
+    ' RELATIONS <<include>> - UC2 (Déclarer)
+    ' ============================================
+    UC2 .> UC2A : <<include>>
+    UC2 .> UC2B : <<include>>
+    UC2 .> UC1A : <<include>>
+    
+    ' ============================================
+    ' RELATIONS <<include>> - UC3 (Consulter Liste)
+    ' ============================================
+    UC3 .> UC3A : <<include>>
+    UC3 .> UC1A : <<include>>
+    
+    ' ============================================
+    ' RELATIONS <<include>> - UC4 (Consulter Détail)
+    ' ============================================
+    UC4 .> UC4A : <<include>>
+    UC4 .> UC1A : <<include>>
+    
+    ' ============================================
+    ' NOTES EXPLICATIVES
+    ' ============================================
+    note right of UC1
+        **Pré-conditions:**
+        - Utilisateur a un compte
+        - Max 3 tentatives
+        
+        **Post-conditions:**
+        - Token UUID généré
+        - Session ouverte
+    end note
+    
+    note right of UC2
+        **Pré-conditions:**
+        - Token valide requis
+        
+        **Champs obligatoires:**
+        - Catégorie
+        - Titre
+        - Description
+        
+        **Post-conditions:**
+        - Incident créé (OPEN)
+        - ID unique généré
+        - Date assignée
+        - Persisté
+    end note
+    
+    note right of UC3
+        **Pré-conditions:**
+        - Token valide requis
+        
+        **Post-conditions:**
+        - Liste affichée
+        - Filtrée par utilisateur
+        - Vide si aucun incident
+    end note
+    
+    note right of UC4
+        **Pré-conditions:**
+        - Token valide requis
+        - ID incident fourni
+        
+        **Post-conditions:**
+        - Détails complets affichés
+        OU
+        - Message erreur
+    end note
+}
+
+@enduml

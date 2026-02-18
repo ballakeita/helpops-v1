@@ -1,0 +1,83 @@
+@startuml HelpOps_V1_UseCases_Simple
+!define ARROWCOLOR #333333
+
+skinparam usecase {
+    BackgroundColor #DDEEF8
+    BorderColor #0066CC
+    ArrowColor #333333
+}
+
+skinparam actor {
+    BackgroundColor #FFFFCC
+    BorderColor #FF9900
+}
+
+skinparam rectangle {
+    BackgroundColor #FFFFFF
+    BorderColor #333333
+    BorderThickness 2
+}
+
+left to right direction
+
+' ============================================
+' ACTEUR
+' ============================================
+actor "Utilisateur" as USER #FFFFCC
+
+' ============================================
+' SYSTÈME HELP'OPS
+' ============================================
+rectangle "HELP'OPS v1.0" {
+    
+    ' ============================================
+    ' CAS D'UTILISATION (Bleus)
+    ' ============================================
+    usecase "S'Authentifier" as UC1 #DDEEF8
+    usecase "Déclarer\nun Incident" as UC2 #DDEEF8
+    usecase "Consulter\nMes Incidents" as UC3 #DDEEF8
+    usecase "Consulter\nDétail d'Incident" as UC4 #DDEEF8
+    
+    ' ============================================
+    ' FONCTIONS INTERNES (Verts)
+    ' ============================================
+    usecase "Vérifier\nToken" as CHECK #E8F8D8
+    usecase "Générer\nToken" as GEN #E8F8D8
+    usecase "Créer\nIncident" as CREATE #E8F8D8
+    usecase "Filtrer\nDonnées" as FILTER #E8F8D8
+    usecase "Sauvegarder" as SAVE #E8F8D8
+    
+    ' ============================================
+    ' CONNEXIONS UTILISATEUR
+    ' ============================================
+    USER --> UC1
+    USER --> UC2
+    USER --> UC3
+    USER --> UC4
+    
+    ' ============================================
+    ' INCLUSION S'AUTHENTIFIER
+    ' ============================================
+    UC1 .> GEN : <<include>>
+    
+    ' ============================================
+    ' INCLUSION DÉCLARER INCIDENT
+    ' ============================================
+    UC2 .> CHECK : <<include>>
+    UC2 .> CREATE : <<include>>
+    UC2 .> SAVE : <<include>>
+    
+    ' ============================================
+    ' INCLUSION CONSULTER MES INCIDENTS
+    ' ============================================
+    UC3 .> CHECK : <<include>>
+    UC3 .> FILTER : <<include>>
+    
+    ' ============================================
+    ' INCLUSION CONSULTER DÉTAIL
+    ' ============================================
+    UC4 .> CHECK : <<include>>
+    UC4 .> FILTER : <<include>>
+}
+
+@enduml
